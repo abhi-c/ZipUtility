@@ -16,23 +16,21 @@ public class ZipController {
 	@Autowired
 	ZipServiceI zipService;
 	
-	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/refresh", method = RequestMethod.POST)
 	public boolean uploadZipFile() {
-		//ToDO
+		//TODO
 		return false;
-	}
+	}*/
 	
 	@RequestMapping(value = "/zip/{postalCode}", method = RequestMethod.GET)
-	public ZipAbstractVO getDetails(@PathVariable("postalCode") String postalCode) throws Exception
+	public ZipAbstractVO getDetails(@PathVariable("postalCode") String postalCode)
 	{
-		//TODO
 		return zipService.getByPostalCode(postalCode.toUpperCase());
 	}
 	
 	@RequestMapping(value = "/zipcountry/count/{stateCode}", method = RequestMethod.GET)
 	public ZipByStateVO getCounty(@PathVariable("stateCode") String stateCode) throws Exception
 	{
-		//TODO
 		return zipService.getByState(stateCode.toUpperCase());
 	}
 }

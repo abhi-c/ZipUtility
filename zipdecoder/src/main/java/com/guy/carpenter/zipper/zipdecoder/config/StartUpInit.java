@@ -1,5 +1,7 @@
 package com.guy.carpenter.zipper.zipdecoder.config;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,14 @@ public class StartUpInit {
 			int size = service.getData().size();
 			if (size < 1) {
 				log.error(
-						"TextZip Service has zero data please contact your Administrator");
+						"TextZip Service has zero data. please contact your Administrator");
 			} else {
 				log.info("TextZip was initialized. Total zips found were: "
 						+ size);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			log.error(
-					"TextZip Service could not be initialized please contact your Administrator");
+					"The zip-code file is corrupt. TextZip Service could not be initialized please contact your Administrator");
 		}
 	}
 }

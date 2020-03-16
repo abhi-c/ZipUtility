@@ -10,7 +10,7 @@ public class ZipUtils {
 		if (arr.length > index && !StringUtils.isNullOrEmpty(arr[index])) {
 			try {
 				return ACURACY.valueOf(arr[index]);
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				return default_;
 			}
 		}

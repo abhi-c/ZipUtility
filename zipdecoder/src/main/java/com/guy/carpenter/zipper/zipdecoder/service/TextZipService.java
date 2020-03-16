@@ -5,6 +5,7 @@ import static com.guy.carpenter.zipper.zipdecoder.utils.ZipUtils.extractAccracy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class TextZipService implements ZipServiceI {
 	Map<String,ZipAbstractVO> groupByZipLst = Collections.emptyMap();
 	
 	@Override
-	public boolean updateZipDetails() throws Exception {
+	public boolean updateZipDetails() throws IOException {
 		Path resourceDirectory = Paths.get("src","main","resources");
 		String absolutePath = resourceDirectory.toFile().getAbsolutePath();
 		readTestFileAndPopulateDataMap(absolutePath + "/US.txt");
@@ -40,7 +41,7 @@ public class TextZipService implements ZipServiceI {
 	}
 
 	public boolean readTestFileAndPopulateDataMap(String path)
-			throws Exception {
+			throws IOException {
 		try (BufferedReader buf = new BufferedReader(new FileReader(path))) {
 			dataMap = new ArrayList<>();
 			groupByStateLst = new HashMap<>();
@@ -78,7 +79,7 @@ public class TextZipService implements ZipServiceI {
 			}
 			// buf.close();
 
-		} catch (Exception e) {
+		} catch (IOException | ArrayIndexOutOfBoundsException e) {
 			throw e;
 		}
 		return true;
@@ -109,7 +110,7 @@ public class TextZipService implements ZipServiceI {
 	}
 
 	@Override
-	public List<ZipDetail> getData() throws Exception {
+	public List<ZipDetail> getData() throws IOException {
 		if(dataMap.size() < 1)
 		{
 			updateZipDetails();
@@ -122,23 +123,23 @@ public class TextZipService implements ZipServiceI {
 	}
 
 	@Override
-	public ZipByStateVO getByState(String stateCode) throws Exception {
-		if(StringUtils.isNullOrEmpty(stateCode)) { throw new Exception("stateCode should not be empty of null"); }
+	public ZipByStateVO getByState(String stateCode) throws IllegalArgumentException {
+		if(StringUtils.isNullOrEmpty(stateCode)) { throw new IllegalArgumentException("stateCode should not be empty of null"); }
 		ZipByStateVO stateVO = groupByStateLst.get(stateCode.toUpperCase());
 		
 		if(stateVO == null)
-			throw new Exception("Data not found for the statecode: " + stateCode);
+			throw new IllegalArgumentException("Data not found for the statecode: " + stateCode);
 		
 		return stateVO;
 	}
 
 	@Override
 	public ZipAbstractVO getByPostalCode(String postalCode)
-			throws Exception {
+			throws IllegalArgumentException {
 		ZipAbstractVO zipAbstractVO = groupByZipLst.get(postalCode);
 		
 		if(zipAbstractVO == null)
-			throw new Exception("Data not found for the postalcode: " + zipAbstractVO);
+			throw new IllegalArgumentException("Data not found for the postalcode: " + postalCode);
 		
 		return zipAbstractVO;
 	}
