@@ -1,14 +1,13 @@
 package com.guy.carpenter.zipper.zipdecoder.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.guy.carpenter.zipper.zipdecoder.entity.ZipDetail;
+import com.guy.carpenter.zipper.zipdecoder.entity.ZipAbstractVO;
+import com.guy.carpenter.zipper.zipdecoder.entity.ZipByStateVO;
 import com.guy.carpenter.zipper.zipdecoder.service.ZipServiceI;
 
 @RestController
@@ -23,17 +22,17 @@ public class ZipController {
 		return false;
 	}
 	
-	@RequestMapping(value = "/zip/{zipCode}", method = RequestMethod.GET)
-	public List<ZipDetail> getDetails(@PathVariable("zipCode") String zipCode) throws Exception
+	@RequestMapping(value = "/zip/{postalCode}", method = RequestMethod.GET)
+	public ZipAbstractVO getDetails(@PathVariable("postalCode") String postalCode) throws Exception
 	{
 		//TODO
-		return zipService.getData();
+		return zipService.getByPostalCode(postalCode.toUpperCase());
 	}
 	
-	@RequestMapping(value = "/zipcountry/count/{state}", method = RequestMethod.GET)
-	public List<ZipDetail> getCounty(@PathVariable("state") String state) throws Exception
+	@RequestMapping(value = "/zipcountry/count/{stateCode}", method = RequestMethod.GET)
+	public ZipByStateVO getCounty(@PathVariable("stateCode") String stateCode) throws Exception
 	{
 		//TODO
-		return zipService.getData();
+		return zipService.getByState(stateCode.toUpperCase());
 	}
 }
